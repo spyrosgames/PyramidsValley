@@ -76,6 +76,23 @@ function WhiteIn () {
 	DestroyCameraCoverPlane ();
 }
 
+function BlackOut () {
+	CreateCameraCoverPlane ();
+	var mat : Material  = cookShadersObject.renderer.sharedMaterial;
+	mat.SetColor ("_TintColor", Color (0, 0, 0, 0.3));	
+	
+	yield;
+	
+	var c : Color = Color (0, 0, 0, 0.3);
+	while (c.a < 0.7) {
+		c.a += Time.deltaTime * 0.09;
+		mat.SetColor ("_TintColor", c);
+		yield;
+	}
+			
+	//DestroyCameraCoverPlane ();
+}
+
 function DestroyCameraCoverPlane () {
 	if (cookShadersObject)
 		DestroyImmediate (cookShadersObject);	
