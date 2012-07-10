@@ -5,6 +5,7 @@ public var Player : GameObject;
 public var EnemiesWaves : GameObject;
 public var enemiesKilledGUIGameObject : GameObject;
 public var LivesHearts : GameObject;
+public var PyramidHealthGUIGameObject : GameObject;
 
 function Start () {
 	/*
@@ -16,7 +17,7 @@ function Start () {
 }
 
 function Update () {
-	if (Input.touchCount > 0 )
+	if (Input.touchCount > 0)
 	{
 		for(var i : int = 0; i < Input.touchCount;i++)
 		{
@@ -32,6 +33,7 @@ function Update () {
 				enemiesKilledGUIGameObject.SetActiveRecursively(true);
 				LivesHearts.SetActiveRecursively(true);
 				EnemiesWaves.active = true;
+				PyramidHealthGUIGameObject.SetActiveRecursively(true);
 				this.gameObject.active = false;
 			}			
 		}

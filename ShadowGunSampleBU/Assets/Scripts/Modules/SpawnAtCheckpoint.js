@@ -33,31 +33,20 @@ function OnSignal () {
 	//transform.rotation = checkpoint.rotation;
 	
 	//ResetHealthOnAll ();
-	ResetPlayerHealth();
 	globals.lives--;
 	if(globals.lives == 2)
 	{
 		FirstHealthHeart.texture = HeartGrey;
+		ResetPlayerHealth();
 	}
 	if(globals.lives == 1)
 	{
 		SecondHealthHeart.texture = HeartGrey;
+		ResetPlayerHealth();
 	}
 	if(globals.lives == 0)
 	{
-		ThirdHealthHeart.texture = HeartGrey;
-		enemiesKilledGUIGameObject.SetActiveRecursively(false);
-		enemiesKilledGUIText.enabled = false;
-		PyramidUnderAttackGUIText.enabled = false;
-		//this.gameObject.GetComponent.<PlayerMoveController>().active = false;
-		JoystickLeft = GameObject.Find("Joystick Left");
-		JoystickRight = GameObject.Find("Joystick Right");
-		JoystickLeft.active = false;
-		JoystickRight.active = false;
-		shaderDatabase.BlackOut();
-		ScoreGUITextGameObject.SetActiveRecursively(true);
-		ScoreNumberGUIText.text = globals.enemiesKilled + "";
-		displayTapToContinueButton = true;
+		DisplayDeathScreen();
 	}
 }
 
@@ -98,4 +87,38 @@ function NewGame()
 	ThirdHealthHeart.texture = HeartColored;
 	ResetHealthOnAll();
 	Application.LoadLevel(0);
+}
+
+public function DisplayDeathScreen()
+{
+	FirstHealthHeart.texture = HeartGrey;
+	SecondHealthHeart.texture = HeartGrey;
+	ThirdHealthHeart.texture = HeartGrey;
+	enemiesKilledGUIGameObject.SetActiveRecursively(false);
+	enemiesKilledGUIText.enabled = false;
+	PyramidUnderAttackGUIText.enabled = false;
+	//this.gameObject.GetComponent.<PlayerMoveController>().active = false;
+	JoystickLeft = GameObject.Find("Joystick Left");
+	JoystickRight = GameObject.Find("Joystick Right");
+	JoystickLeft.active = false;
+	JoystickRight.active = false;
+	var JoystickRightScript : Joystick = JoystickRight.GetComponent.<Joystick> ();
+	JoystickRightScript.position.x = 0;
+	JoystickRightScript.position.y = 0;
+	var JoystickLeftScript : Joystick = JoystickLeft.GetComponent.<Joystick> ();
+	JoystickLeftScript.position.x = 0;
+	JoystickLeftScript.position.y = 0;
+
+	shaderDatabase.BlackOut();
+	ScoreGUITextGameObject.SetActiveRecursively(true);
+	if(globals.enemiesKilled >= 1)
+	{
+		ScoreNumberGUIText.text = globals.enemiesKilled + " monsters.";
+	}
+	else if(globals.enemiesKilled < 1)
+	{
+		ScoreNumberGUIText.text = globals.enemiesKilled + " monster.";
+	}
+	
+	displayTapToContinueButton = true;
 }

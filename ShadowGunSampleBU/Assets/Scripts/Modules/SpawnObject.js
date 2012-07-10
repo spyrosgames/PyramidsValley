@@ -78,13 +78,15 @@ function OnSignal () {
 	{
 		this.transform.parent.gameObject.transform.position = enemyCheckPointArray[Random.Range(0, 3)].position;
 		//Don't Destroy small enemies, just move them to the origin.
+		yield WaitForSeconds(2);//Wait to seconds before destroying the death particles
+		Destroy(spawned);//Destroy the enemy death particles
 	}
-	else
+	else if(this.transform.parent.gameObject.name == "MediumRangedEnemy" || this.transform.parent.gameObject.name == "MediumMeleeEnemy" || this.transform.parent.gameObject.name == "BigRangedEnemy" || this.transform.parent.gameObject.name == "BigMeleeEnemy")
 	{
-		Destroy(gameObject); //Destroy Medium and Big enemies.
+		Destroy(this.transform.parent.gameObject); //Destroy Medium and Big enemies.
+		yield WaitForSeconds(2);//Wait to seconds before destroying the death particles
+		Destroy(spawned);//Destroy the enemy death particles
 	}
-	yield WaitForSeconds(2);
-	Destroy(spawned);
 }
 function OnGUI()
 {
