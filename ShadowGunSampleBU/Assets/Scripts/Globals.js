@@ -22,6 +22,8 @@ class Globals
 
 	public var numberOfCurrentEnemiesInstantiated : int;
 	
+	public var score : int;
+	
 	private static var Instance : Globals;
 
 	protected function Globals()

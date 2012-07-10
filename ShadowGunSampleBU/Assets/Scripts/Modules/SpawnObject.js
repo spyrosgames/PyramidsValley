@@ -20,12 +20,23 @@ private var XPLabel : GameObject;
 private var globals : Globals;
 private var enemyHealthScript : EnemyHealth;
 private var screenPosition : Vector3;
+
+private var enemyCheckPoint1 : Transform;
+private var enemyCheckPoint2 : Transform;
+private var enemyCheckPoint3 : Transform;
+private var enemyCheckPointArray : Transform[];
+
 // Keep disabled from the beginning
 enabled = false;
 
 function Awake()
 {
 	globals = Globals.GetInstance();
+
+	enemyCheckPoint1 = GameObject.FindWithTag("EnemyCheckpoint1").transform;
+	enemyCheckPoint2 = GameObject.FindWithTag("EnemyCheckpoint2").transform;
+	enemyCheckPoint3 = GameObject.FindWithTag("EnemyCheckpoint3").transform;
+	enemyCheckPointArray = [enemyCheckPoint1, enemyCheckPoint2, enemyCheckPoint3];
 }
 // When we get a signal, spawn the objectToSpawn and store the spawned object.
 // Also enable this behaviour so the Update function will be run.
@@ -63,7 +74,15 @@ function OnSignal () {
 	{
 		enabled = true;
 	}
-
+	if(this.transform.parent.gameObject.name == "RangedEnemy" || this.transform.parent.gameObject.name == "MeleeEnemy")
+	{
+		this.transform.parent.gameObject.transform.position = enemyCheckPointArray[Random.Range(0, 3)].position;
+		//Don't Destroy small enemies, just move them to the origin.
+	}
+	else
+	{
+		Destroy(gameObject); //Destroy Medium and Big enemies.
+	}
 	yield WaitForSeconds(2);
 	Destroy(spawned);
 }

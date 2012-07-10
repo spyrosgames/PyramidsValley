@@ -4,16 +4,21 @@ public var MainCamera : GameObject;
 public var Player : GameObject;
 public var EnemiesWaves : GameObject;
 public var enemiesKilledGUIGameObject : GameObject;
-public var enemiesKilledGUIText : GUIText;
+public var LivesHearts : GameObject;
 
 function Start () {
-
+	/*
+	MainCamera.SetActiveRecursively(false);
+	Player.SetActiveRecursively(false);
+	enemiesKilledGUIGameObject.SetActiveRecursively(false);
+	EnemiesWaves.active = false;
+	*/
 }
 
 function Update () {
 	if (Input.touchCount > 0 )
 	{
-		for(var i : int = 0; i< Input.touchCount;i++)
+		for(var i : int = 0; i < Input.touchCount;i++)
 		{
 			var touch : Touch = Input.GetTouch(i);
 			// Check whether we are getting a touch and that it is within the bounds of
@@ -25,7 +30,7 @@ function Update () {
 				MainCamera.SetActiveRecursively(true);
 				Player.SetActiveRecursively(true);
 				enemiesKilledGUIGameObject.SetActiveRecursively(true);
-				enemiesKilledGUIText.active = true;
+				LivesHearts.SetActiveRecursively(true);
 				EnemiesWaves.active = true;
 				this.gameObject.active = false;
 			}			

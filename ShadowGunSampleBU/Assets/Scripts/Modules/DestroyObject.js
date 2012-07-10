@@ -6,25 +6,32 @@ private var globals : Globals;
 private var myWaveIWasInstantiatedAt;
 private var enemyCheckPointNumber : int;
 private var enemyCheckPointPosition : Vector3;
-private var enemyCheckPoint1 : Transform;
-private var enemyCheckPoint2 : Transform;
-private var enemyCheckPoint3 : Transform;
-private var enemyCheckPointArray : Transform[];
+
 private var bigEnemyTypeArray : String[];
 private var mediumEnemyTypeArray : String[];
 private var player : GameObject;
 private var currentNumberOfEnemies : GameObject[];
 private var enemyHealth : Health;
 
+private var enemyCheckPoint1 : Transform;
+private var enemyCheckPoint2 : Transform;
+private var enemyCheckPoint3 : Transform;
+private var enemyCheckPointArray : Transform[];
+
 function Awake()
 {
 	globals = Globals.GetInstance();
+
+	enemyHealth = this.gameObject.transform.GetComponent.<Health>();
 
 	enemyCheckPoint1 = GameObject.FindWithTag("EnemyCheckpoint1").transform;
 	enemyCheckPoint2 = GameObject.FindWithTag("EnemyCheckpoint2").transform;
 	enemyCheckPoint3 = GameObject.FindWithTag("EnemyCheckpoint3").transform;
 	enemyCheckPointArray = [enemyCheckPoint1, enemyCheckPoint2, enemyCheckPoint3];
-	enemyHealth = this.gameObject.transform.GetComponent.<Health>();
+	
+	bigEnemyTypeArray = ["BigRangedEnemy", "BigMeleeEnemy"];
+	mediumEnemyTypeArray = ["MediumRangedEnemy", "MediumMeleeEnemy"];
+
 }
 
 function Start()
@@ -34,8 +41,44 @@ function Start()
 
 function OnSignal () {
 	globals.enemiesKilled++;
+	if(this.gameObject.name == "RangedEnemy" || this.gameObject.name == "MeleeEnemy")
+	{
+		globals.score++;
+	}
+	if(this.gameObject.name == "MediumRangedEnemy" || this.gameObject.name == "MediumMeleeEnemy")
+	{
+		globals.score += 4;
+	}
+	if(this.gameObject.name == "BigRangedEnemy" || this.gameObject.name == "BigMeleeEnemy")
+	{
+		globals.score += 8;
+	}
+
+	if(globals.enemiesKilled % 30 == 0)
+	{
+		var mediumEnemyType = Random.Range(0, 2);
+
+		for(var a = 0; a < 4; a++)
+		{
+			newMediumEnemy = Instantiate(Resources.Load(mediumEnemyTypeArray[mediumEnemyType]), enemyCheckPointArray[Random.Range(0, 3)].position, this.transform.rotation);
+			newMediumEnemy.tag = "Enemy";
+			newMediumEnemy.name = mediumEnemyTypeArray[mediumEnemyType];
+			yield WaitForSeconds(1);
+		}
+	}
+
+	if(globals.enemiesKilled % 200 == 0)
+	{
+		var bigEnemyType = Random.Range(0, 2);
+
+		for(var b = 0; b < 1; b++)
+		{
+			newMediumEnemy = Instantiate(Resources.Load(bigEnemyTypeArray[bigEnemyType]), enemyCheckPointArray[Random.Range(0, 3)].position, this.transform.rotation);
+			newMediumEnemy.tag = "Enemy";
+			newMediumEnemy.name = bigEnemyTypeArray[bigEnemyType];
+		}
+	}
 	//Check the type of the enemy and instantiate a new one according to its type
-	this.gameObject.transform.position = enemyCheckPointArray[Random.Range(0, 3)].position;
 	enemyHealth.dead = false;
 	enemyHealth.health = enemyHealth.maxHealth;
 }
