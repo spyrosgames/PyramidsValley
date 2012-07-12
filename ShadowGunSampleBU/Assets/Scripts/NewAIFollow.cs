@@ -40,13 +40,14 @@ public class NewAIFollow : MonoBehaviour {
 
 		float pyramidDist = pyramidDirection.magnitude;
 
-		if(playerDist < pyramidDist)
+		
+		if( (playerDist < pyramidDist) || (playerDist >= pyramidDist * 2))
 		{
 			GetComponent<NavMeshAgent>().destination = player.position;
 		}
-		else if(pyramidDist < playerDist)
+		if(pyramidDist < playerDist)
 		{
 			GetComponent<NavMeshAgent>().destination = pyramid.position;	
-		}
+		}		
 	}
 }

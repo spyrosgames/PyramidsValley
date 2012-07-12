@@ -20,6 +20,7 @@ public var ScoreGUITextGameObject : GameObject;
 public var ScoreNumberGUIText : GUIText;
 private var displayTapToContinueButton : boolean = false;
 public var noBordersGUISkin : GUISkin;
+public var Weapon : GameObject;
 
 function Awake()
 {
@@ -72,8 +73,8 @@ function OnGUI()
 		if(GUI.Button(Rect(Screen.width * 0.5, Screen.height * 0.5, 200, 50), "Tap to continue..."))
 		{
 			//
-			displayTapToContinueButton = false;
 			NewGame();
+			displayTapToContinueButton = false;
 		}
 	}
 }
@@ -108,7 +109,9 @@ public function DisplayDeathScreen()
 	var JoystickLeftScript : Joystick = JoystickLeft.GetComponent.<Joystick> ();
 	JoystickLeftScript.position.x = 0;
 	JoystickLeftScript.position.y = 0;
-
+	var autoFire : AutoFire = Weapon.GetComponent.<AutoFire>();
+	autoFire.OnStopFire();
+	this.gameObject.rigidbody.constraints = RigidbodyConstraints.FreezeAll;
 	shaderDatabase.BlackOut();
 	ScoreGUITextGameObject.SetActiveRecursively(true);
 	if(globals.enemiesKilled >= 1)

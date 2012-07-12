@@ -7,6 +7,8 @@ public var enemiesKilledGUIGameObject : GameObject;
 public var LivesHearts : GameObject;
 public var PyramidHealthGUIGameObject : GameObject;
 
+//public var tempEnemy : GameObject;
+
 function Start () {
 	/*
 	MainCamera.SetActiveRecursively(false);
@@ -30,9 +32,16 @@ function Update () {
 				AnimationCamera.active = false;
 				MainCamera.SetActiveRecursively(true);
 				Player.SetActiveRecursively(true);
+				if(Player.rigidbody.isKinematic == true)
+				{
+					Player.rigidbody.isKinematic = false;
+				}
+				this.gameObject.rigidbody.constraints = RigidbodyConstraints.None; //clear any freeze
+				this.gameObject.rigidbody.constraints = RigidbodyConstraints.FreezePositionY; //freeze y for player
 				enemiesKilledGUIGameObject.SetActiveRecursively(true);
 				LivesHearts.SetActiveRecursively(true);
 				EnemiesWaves.active = true;
+				//tempEnemy.SetActiveRecursively(true);
 				PyramidHealthGUIGameObject.SetActiveRecursively(true);
 				this.gameObject.active = false;
 			}			
