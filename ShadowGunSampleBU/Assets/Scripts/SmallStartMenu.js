@@ -36,8 +36,10 @@ function Update () {
 				{
 					Player.rigidbody.isKinematic = false;
 				}
-				this.gameObject.rigidbody.constraints = RigidbodyConstraints.None; //clear any freeze
-				this.gameObject.rigidbody.constraints = RigidbodyConstraints.FreezePositionY; //freeze y for player
+				/*
+				Player.rigidbody.constraints = RigidbodyConstraints.None; //clear any freeze
+				Player.rigidbody.constraints = RigidbodyConstraints.FreezePositionY; //freeze y for player
+				*/
 				enemiesKilledGUIGameObject.SetActiveRecursively(true);
 				LivesHearts.SetActiveRecursively(true);
 				EnemiesWaves.active = true;
