@@ -7,6 +7,8 @@ public class NewAIFollow : MonoBehaviour {
 	private Transform pyramid;
 	private Vector3 playerDirection;
 	private Vector3 pyramidDirection;
+	private float walkingSpeed = 4;
+	private float maxDistance = 3;
 	// Use this for initialization
 	void Awake()
 	{
@@ -20,6 +22,7 @@ public class NewAIFollow : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
 		playerDirection = (player.position - transform.position);
 
 		if(pyramid != null)
@@ -40,14 +43,24 @@ public class NewAIFollow : MonoBehaviour {
 
 		float pyramidDist = pyramidDirection.magnitude;
 
-		
-		if( (playerDist < pyramidDist) || (playerDist >= pyramidDist * 2))
+		//if( (playerDist < pyramidDist) || (playerDist == 4 * pyramidDist))
+		if( (playerDist < pyramidDist))
 		{
-			GetComponent<NavMeshAgent>().destination = player.position;
+			if(Vector3.Distance(player.position, transform.position) > maxDistance)
+			{
+				//move towards the player
+				transform.position += transform.forward * walkingSpeed * Time.deltaTime;
+				GetComponent<NavMeshAgent>().destination = player.position;
+			}
 		}
 		if(pyramidDist < playerDist)
 		{
-			GetComponent<NavMeshAgent>().destination = pyramid.position;	
-		}		
+			if(Vector3.Distance(pyramid.position, transform.position) > 10)
+			{
+				//move towards the player
+				transform.position += transform.forward * walkingSpeed * Time.deltaTime;
+				GetComponent<NavMeshAgent>().destination = pyramid.position;
+			}
+		}	
 	}
 }

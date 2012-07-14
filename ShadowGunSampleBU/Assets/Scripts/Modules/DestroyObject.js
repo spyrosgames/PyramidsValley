@@ -15,10 +15,10 @@ private var playerSpawnAtCheckpoint : SpawnAtCheckpoint;
 private var currentNumberOfEnemies : GameObject[];
 private var enemyHealth : Health;
 
-private var enemyCheckPoint1 : Transform;
-private var enemyCheckPoint2 : Transform;
-private var enemyCheckPoint3 : Transform;
-private var enemyCheckPointArray : Transform[];
+private var enemyCheckPoint1 : Vector3;
+private var enemyCheckPoint2 : Vector3;
+private var enemyCheckPoint3 : Vector3;
+private var enemyCheckPointArray : Vector3[];
 
 function Awake()
 {
@@ -26,9 +26,9 @@ function Awake()
 
 	enemyHealth = this.gameObject.transform.GetComponent.<Health>();
 
-	enemyCheckPoint1 = GameObject.FindWithTag("EnemyCheckpoint1").transform;
-	enemyCheckPoint2 = GameObject.FindWithTag("EnemyCheckpoint2").transform;
-	enemyCheckPoint3 = GameObject.FindWithTag("EnemyCheckpoint3").transform;
+	enemyCheckPoint1 = GameObject.FindWithTag("EnemyCheckpoint1").transform.position;
+	enemyCheckPoint2 = GameObject.FindWithTag("EnemyCheckpoint2").transform.position;
+	enemyCheckPoint3 = GameObject.FindWithTag("EnemyCheckpoint3").transform.position;
 	enemyCheckPointArray = [enemyCheckPoint1, enemyCheckPoint2, enemyCheckPoint3];
 	
 	bigEnemyTypeArray = ["BigRangedEnemy", "BigMeleeEnemy"];
@@ -63,7 +63,7 @@ function OnSignal () {
 
 			for(var a = 0; a < 4; a++)
 			{
-				newMediumEnemy = Instantiate(Resources.Load(mediumEnemyTypeArray[mediumEnemyType]), enemyCheckPointArray[Random.Range(0, 3)].position, this.transform.rotation);
+				newMediumEnemy = Instantiate(Resources.Load(mediumEnemyTypeArray[mediumEnemyType]), enemyCheckPointArray[Random.Range(0, 3)], this.transform.rotation);
 				newMediumEnemy.tag = "Enemy";
 				newMediumEnemy.name = mediumEnemyTypeArray[mediumEnemyType];
 				yield WaitForSeconds(1);
@@ -76,7 +76,7 @@ function OnSignal () {
 
 			for(var b = 0; b < 1; b++)
 			{
-				newMediumEnemy = Instantiate(Resources.Load(bigEnemyTypeArray[bigEnemyType]), enemyCheckPointArray[Random.Range(0, 3)].position, this.transform.rotation);
+				newMediumEnemy = Instantiate(Resources.Load(bigEnemyTypeArray[bigEnemyType]), enemyCheckPointArray[Random.Range(0, 3)], this.transform.rotation);
 				newMediumEnemy.tag = "Enemy";
 				newMediumEnemy.name = bigEnemyTypeArray[bigEnemyType];
 			}

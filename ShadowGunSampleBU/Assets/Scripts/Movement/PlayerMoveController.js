@@ -197,10 +197,10 @@ function Update () {
 		
 	// Set the target position of the camera to point at the focus point
 	var cameraTargetPosition : Vector3 = character.position + initOffsetToPlayer + cameraAdjustmentVector * cameraPreview;
-	
+
 	// Apply some smoothing to the camera movement
 	mainCameraTransform.position = Vector3.SmoothDamp (mainCameraTransform.position, cameraTargetPosition, cameraVelocity, cameraSmoothing);
-	
+
 	// Save camera offset so we can use it in the next frame
 	cameraOffset = mainCameraTransform.position - character.position;
 }

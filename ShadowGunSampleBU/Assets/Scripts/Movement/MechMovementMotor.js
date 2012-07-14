@@ -4,21 +4,21 @@
 
 class MechMovementMotor extends MovementMotor {
 	
-public var walkingSpeed : float = 3.0;
+public var walkingSpeed : float = 3;
 public var turningSpeed : float = 100.0;
 public var aimingSpeed : float = 150.0;
-private var maxDistance : float = 7;
+private var maxDistance : float = 0;
 public var head : Transform;
 
 //private var wallNormal : Vector3 = Vector3.zero;
 private var wallHit : Vector3;
 private var facingInRightDirection : boolean = false;
 private var headRotation : Quaternion = Quaternion.identity;
-
+private var player : Transform;
 
 function Awake()
 {
-	//player = GameObject.FindWithTag ("Player").transform;
+	player = GameObject.FindWithTag ("Player").transform;
 }
 
 function Start()
@@ -36,13 +36,14 @@ function Update()
 	{
 		maxDistance = 3;
 	}
-
+	
 	if(Vector3.Distance(player.position, transform.position) > maxDistance)
 	{
 		//move towards the player
 		transform.position += transform.forward * walkingSpeed * Time.deltaTime;
 	}
 	*/
+	transform.position += transform.forward * walkingSpeed * Time.deltaTime;
 }
 
 function FixedUpdate () {
