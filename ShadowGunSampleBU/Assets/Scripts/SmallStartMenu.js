@@ -6,7 +6,7 @@ public var EnemiesWaves : GameObject;
 public var enemiesKilledGUIGameObject : GameObject;
 public var LivesHearts : GameObject;
 public var PyramidHealthGUIGameObject : GameObject;
-
+public var MainSoundTrackAudioSource : GameObject;
 //public var tempEnemy : GameObject;
 
 function Start () {
@@ -31,6 +31,7 @@ function Update () {
 				guiTexture.enabled = false;
 				AnimationCamera.active = false;
 				MainCamera.SetActiveRecursively(true);
+				MainSoundTrackAudioSource.active = true;
 				Player.SetActiveRecursively(true);
 				if(Player.rigidbody.isKinematic == true)
 				{

@@ -8,7 +8,9 @@ public class NewAIFollow : MonoBehaviour {
 	private Vector3 playerDirection;
 	private Vector3 pyramidDirection;
 	private float walkingSpeed = 4;
-	private float maxDistance = 3;
+	private float maxDistance = 2;
+
+
 	// Use this for initialization
 	void Awake()
 	{
@@ -44,7 +46,7 @@ public class NewAIFollow : MonoBehaviour {
 		float pyramidDist = pyramidDirection.magnitude;
 
 		//if( (playerDist < pyramidDist) || (playerDist == 4 * pyramidDist))
-		if( (playerDist < pyramidDist))
+		if(playerDist < pyramidDist)
 		{
 			if(Vector3.Distance(player.position, transform.position) > maxDistance)
 			{
@@ -55,7 +57,7 @@ public class NewAIFollow : MonoBehaviour {
 		}
 		if(pyramidDist < playerDist)
 		{
-			if(Vector3.Distance(pyramid.position, transform.position) > 10)
+			if(Vector3.Distance(pyramid.position, transform.position) > maxDistance)
 			{
 				//move towards the player
 				transform.position += transform.forward * walkingSpeed * Time.deltaTime;
