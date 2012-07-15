@@ -26,7 +26,8 @@ TextureImporter:
     aniso: 1
     mipBias: 0
     wrapMode: 0
-  nPOTScale: 0
+  nPOTScale: 1
   lightmap: 0
-  textureType: -1
+  compressionQuality: 50
+  textureType: 0
   buildTargetSettings: []
