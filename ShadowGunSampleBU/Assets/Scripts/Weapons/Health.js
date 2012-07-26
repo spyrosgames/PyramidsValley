@@ -44,10 +44,11 @@ function Awake () {
 		
 	}
 	
+
 	//if (scorchMarkPrefab && this.gameObject.tag == "Pyramid") {
 	if (this.gameObject.tag == "Pyramid") {
 		//scorchMark = GameObject.Instantiate(scorchMarkPrefab, Vector3.zero, Quaternion.identity);
-		scorchMark = GameObject.Instantiate(Resources.Load("LargeFlames"), Vector3.zero, Quaternion.identity);
+		scorchMark = GameObject.Instantiate(Resources.Load("LargeFlames"), Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, this.gameObject.transform.position.z - 10), Quaternion.identity);
 		scorchMark.active = false;
 		//if(this.gameObject.tag == "Pyramid")
 		//{

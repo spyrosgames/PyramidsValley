@@ -51,7 +51,7 @@ function OnSignal () {
     screenPosition.y = Screen.height - screenPosition.y;
 
 	AudioSource.PlayClipAtPoint(explosionSound, transform.position);
-	spawned = Spawner.Spawn (objectToSpawn, transform.position, transform.rotation);
+	spawned = Spawner.Spawn(objectToSpawn, transform.position, Quaternion.Euler(0, -180, 0));
 
     if(this.transform.parent.gameObject.name == "RangedEnemy" || this.transform.parent.gameObject.name == "MeleeEnemy")
     {

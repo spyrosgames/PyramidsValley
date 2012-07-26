@@ -68,7 +68,7 @@ function Update () {
 function OnStartFire () {
 	firing = true;
 	
-	muzzleFlashFront.active = true;
+	//muzzleFlashFront.active = true;
 	
 	if (audio)
 		audio.Play ();

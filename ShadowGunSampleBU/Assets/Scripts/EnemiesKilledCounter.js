@@ -1,6 +1,8 @@
 #pragma strict
 private var globals : Globals;
 public var EnemiesKilledCounter : GUIText;
+public var smallFont : Font;
+public var bigFont : Font;
 
 function Awake()
 {
@@ -8,7 +10,14 @@ function Awake()
 }
 
 function Start () {
-
+	if(Screen.currentResolution.width < 1024)
+	{
+		EnemiesKilledCounter.font = smallFont;
+	}
+	else if(Screen.currentResolution.width >= 1024 && Screen.currentResolution.width < 1280)
+	{
+		EnemiesKilledCounter.font = bigFont;
+	}
 }
 
 function Update () {
@@ -33,3 +42,4 @@ function Update () {
 		EnemiesKilledCounter.text = globals.enemiesKilled.ToString();
 	}
 }
+

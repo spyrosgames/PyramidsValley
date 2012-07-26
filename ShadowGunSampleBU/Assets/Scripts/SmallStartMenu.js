@@ -6,8 +6,16 @@ public var EnemiesWaves : GameObject;
 public var enemiesKilledGUIGameObject : GameObject;
 public var LivesHearts : GameObject;
 public var PyramidHealthGUIGameObject : GameObject;
+public var MenuSoundTrackAudioSource : GameObject;
 public var MainSoundTrackAudioSource : GameObject;
+public var scaredGround : GameObject;
 //public var tempEnemy : GameObject;
+
+function Awake()
+{
+	//guiTexture.pixelInset = Rect(Screen.width * 0.5 - 128, Screen.height * 0.5 - 64, 256, 128);
+
+}
 
 function Start () {
 	/*
@@ -31,19 +39,24 @@ function Update () {
 				guiTexture.enabled = false;
 				AnimationCamera.active = false;
 				MainCamera.SetActiveRecursively(true);
+				//MainSoundTrackAudioSource.clip = mainSceneSoundTrack;
+				//MainSoundTrackAudioSource.Play();
+				MenuSoundTrackAudioSource.active = false;
 				MainSoundTrackAudioSource.active = true;
 				Player.SetActiveRecursively(true);
 				if(Player.rigidbody.isKinematic == true)
 				{
 					Player.rigidbody.isKinematic = false;
 				}
+				var scaredGround = Instantiate(scaredGround, Player.transform.position, Quaternion.identity);
+				scaredGround.transform.parent = Player.transform;
 				/*
 				Player.rigidbody.constraints = RigidbodyConstraints.None; //clear any freeze
 				Player.rigidbody.constraints = RigidbodyConstraints.FreezePositionY; //freeze y for player
 				*/
 				enemiesKilledGUIGameObject.SetActiveRecursively(true);
 				LivesHearts.SetActiveRecursively(true);
-				EnemiesWaves.active = true;
+				//EnemiesWaves.active = true;
 				//tempEnemy.SetActiveRecursively(true);
 				PyramidHealthGUIGameObject.SetActiveRecursively(true);
 				this.gameObject.active = false;

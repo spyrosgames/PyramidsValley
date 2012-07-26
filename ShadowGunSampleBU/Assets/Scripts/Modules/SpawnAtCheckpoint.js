@@ -8,6 +8,8 @@ private var shaderDatabase : ShaderDatabase;
 public var MainCamera : GameObject;
 public var enemiesKilledGUIGameObject : GameObject;
 public var enemiesKilledGUIText : GUIText;
+public var livesHeartsGameObject : GameObject;
+public var pyramidHealthGUIGameObject : GameObject;
 private var JoystickLeft : GameObject;
 private var JoystickRight : GameObject;
 public var PyramidUnderAttackGUIText : GUIText;
@@ -21,6 +23,7 @@ public var ScoreNumberGUIText : GUIText;
 private var displayTapToContinueButton : boolean = false;
 public var noBordersGUISkin : GUISkin;
 public var Weapon : GameObject;
+public var scaredGroundParticlesEffect : GameObject;
 
 function Awake()
 {
@@ -38,11 +41,15 @@ function OnSignal () {
 	if(globals.lives == 2)
 	{
 		FirstHealthHeart.texture = HeartGrey;
+		var scaredGround = Instantiate(scaredGroundParticlesEffect, this.gameObject.transform.position, Quaternion.identity);
+		scaredGround.transform.parent = this.gameObject.transform;
 		ResetPlayerHealth();
 	}
 	if(globals.lives == 1)
 	{
 		SecondHealthHeart.texture = HeartGrey;
+		var anotherScaredGround = Instantiate(scaredGroundParticlesEffect, this.gameObject.transform.position, Quaternion.identity);
+		anotherScaredGround.transform.parent = this.gameObject.transform;
 		ResetPlayerHealth();
 	}
 	if(globals.lives == 0)
@@ -67,10 +74,10 @@ function ResetPlayerHealth()
 
 function OnGUI()
 {
-	//GUI.skin = noBordersGUISkin;
+	GUI.skin = noBordersGUISkin;
 	if(displayTapToContinueButton)
 	{
-		if(GUI.Button(Rect(Screen.width * 0.5, Screen.height * 0.5, 200, 50), "Tap to continue..."))
+		if(GUI.Button(Rect(Screen.width * 0.57, Screen.height * 0.49, 260, 20), "Tap to continue..."))
 		{
 			//
 			NewGame();
@@ -96,6 +103,8 @@ public function DisplayDeathScreen()
 	SecondHealthHeart.texture = HeartGrey;
 	ThirdHealthHeart.texture = HeartGrey;
 	enemiesKilledGUIGameObject.SetActiveRecursively(false);
+	livesHeartsGameObject.SetActiveRecursively(false);
+	pyramidHealthGUIGameObject.SetActiveRecursively(false);
 	enemiesKilledGUIText.enabled = false;
 	PyramidUnderAttackGUIText.enabled = false;
 	//this.gameObject.GetComponent.<PlayerMoveController>().active = false;

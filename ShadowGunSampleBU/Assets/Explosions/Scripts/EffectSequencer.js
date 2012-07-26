@@ -44,7 +44,8 @@ function Start () {
 			maxTime = Mathf.Max (maxTime, go.delay + go.gameObject.particleEmitter.maxEnergy);
 	}
 	
-	Destroy (gameObject, maxTime + 0.5);
+	//Destroy (gameObject, maxTime + 0.5);
+	Destroy(gameObject, 1);
 }
 
 function InstantiateDelayed (go : ExplosionPart) {

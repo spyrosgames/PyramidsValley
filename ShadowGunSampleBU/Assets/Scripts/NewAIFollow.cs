@@ -8,7 +8,7 @@ public class NewAIFollow : MonoBehaviour {
 	private Vector3 playerDirection;
 	private Vector3 pyramidDirection;
 	private float walkingSpeed = 4;
-	private float maxDistance = 5;
+	private float maxDistance = 3;
 
 
 	// Use this for initialization
@@ -54,10 +54,11 @@ public class NewAIFollow : MonoBehaviour {
 				transform.position += transform.forward * walkingSpeed * Time.deltaTime;
 				GetComponent<NavMeshAgent>().destination = player.position;
 			}
+			
 		}
 		if(pyramidDist < playerDist)
 		{
-			if(Vector3.Distance(pyramid.position, transform.position) > 10)
+			if(Vector3.Distance(pyramid.position, transform.position) > maxDistance)
 			{
 				//move towards the player
 				transform.position += transform.forward * walkingSpeed * Time.deltaTime;
