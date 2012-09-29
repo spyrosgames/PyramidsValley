@@ -4,18 +4,15 @@ using System.Collections;
 public class NewAIFollow : MonoBehaviour {
 	private Transform target;
 	private Transform player;
-	private Transform pyramid;
 	private Vector3 playerDirection;
 	private Vector3 pyramidDirection;
-	private float walkingSpeed = 4;
-	private float maxDistance = 3;
-
+	private float walkingSpeed = 4.0f;
+	private float maxDistance = 4.0f;
 
 	// Use this for initialization
 	void Awake()
 	{
 		player = GameObject.FindWithTag("Player").transform;
-		pyramid = GameObject.FindWithTag("Pyramid").transform;
 	}
 
 	void Start () {
@@ -25,6 +22,7 @@ public class NewAIFollow : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		/*
 		playerDirection = (player.position - transform.position);
 
 		if(pyramid != null)
@@ -44,14 +42,21 @@ public class NewAIFollow : MonoBehaviour {
 		float playerDist = playerDirection.magnitude;
 
 		float pyramidDist = pyramidDirection.magnitude;
+		
+		*/
+		if(Vector3.Distance(player.position, transform.position) > maxDistance)
+		{
+			GetComponent<NavMeshAgent>().destination = player.position;
+		}
 
+		/*
 		//if( (playerDist < pyramidDist) || (playerDist == 4 * pyramidDist))
 		if(playerDist < pyramidDist)
 		{
 			if(Vector3.Distance(player.position, transform.position) > maxDistance)
 			{
 				//move towards the player
-				transform.position += transform.forward * walkingSpeed * Time.deltaTime;
+				//transform.position += transform.forward * walkingSpeed * Time.deltaTime;
 				GetComponent<NavMeshAgent>().destination = player.position;
 			}
 			
@@ -61,9 +66,10 @@ public class NewAIFollow : MonoBehaviour {
 			if(Vector3.Distance(pyramid.position, transform.position) > maxDistance)
 			{
 				//move towards the player
-				transform.position += transform.forward * walkingSpeed * Time.deltaTime;
+				//transform.position += transform.forward * walkingSpeed * Time.deltaTime;
 				GetComponent<NavMeshAgent>().destination = pyramid.position;
 			}
-		}	
+		}
+		*/	
 	}
 }

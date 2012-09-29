@@ -26,6 +26,9 @@ private var enemyCheckPoint2 : Transform;
 private var enemyCheckPoint3 : Transform;
 private var enemyCheckPointArray : Transform[];
 
+private var wavesMonitor : GameObject;
+private var wavesMonitorObj : WavesMonitor;
+
 // Keep disabled from the beginning
 enabled = false;
 
@@ -76,7 +79,54 @@ function OnSignal () {
 	}
 	if(this.transform.parent.gameObject.name == "RangedEnemy" || this.transform.parent.gameObject.name == "MeleeEnemy")
 	{
-		this.transform.parent.gameObject.transform.position = enemyCheckPointArray[Random.Range(0, 3)].position;
+		this.transform.parent.gameObject.transform.position = enemyCheckPointArray[Random.Range(0, 3)].position; //move the enemies back to one of the checkpoints
+		wavesMonitor = GameObject.FindWithTag("WavesMonitor");
+		wavesMonitorObj = wavesMonitor.GetComponent.<WavesMonitor>();
+
+		var enemiesNumberToConsider : int;
+		var remainingEnemiesToKill : int;
+		var enemiesLimit : int;
+		var enemiesRangedLimit : int;
+		var enemiesMeleeLimit : int;
+ 
+		if(wavesMonitorObj.GetTotalNumberOfWaveEnemeis(PlayerPrefs.GetInt("WaveNumber")) != 0)
+		{
+			enemiesNumberToConsider = wavesMonitorObj.GetTotalNumberOfWaveEnemeis(PlayerPrefs.GetInt("WaveNumber"));
+		}
+		/*
+		else
+		{
+			enemiesNumberToConsider = wavesMonitorObj.GetNumberOfWaveRangedEnemies(PlayerPrefs.GetInt("WaveNumber"));
+		}
+		*/
+		Debug.Log("Wave : " + PlayerPrefs.GetInt("WaveNumber") + " remaining Enemies To Kill : " + (enemiesNumberToConsider - globals.enemiesKilled) + " Total Number:" + enemiesNumberToConsider);
+
+		if(wavesMonitorObj.GetNumberOfWaveRangedEnemies(PlayerPrefs.GetInt("WaveNumber")) >= wavesMonitorObj.maxNumberOfEnemiesInScene * 0.5)
+		{
+			enemiesRangedLimit = wavesMonitorObj.maxNumberOfEnemiesInScene * 0.5;
+		}
+		else
+		{
+			enemiesRangedLimit = wavesMonitorObj.GetNumberOfWaveRangedEnemies(PlayerPrefs.GetInt("WaveNumber"));
+		}
+
+		if(wavesMonitorObj.GetNumberOfWaveMeleeEnemies(PlayerPrefs.GetInt("WaveNumber")) >= wavesMonitorObj.maxNumberOfEnemiesInScene * 0.5)
+		{
+			enemiesMeleeLimit = wavesMonitorObj.maxNumberOfEnemiesInScene * 0.5;
+		}
+		else
+		{
+			enemiesMeleeLimit = wavesMonitorObj.GetNumberOfWaveMeleeEnemies(PlayerPrefs.GetInt("WaveNumber"));
+		}
+
+		enemiesLimit = enemiesRangedLimit + enemiesMeleeLimit;
+
+		remainingEnemiesToKill = enemiesNumberToConsider - globals.enemiesKilled;
+
+		if(remainingEnemiesToKill < enemiesLimit)
+		{
+			this.transform.parent.gameObject.SetActiveRecursively(false);
+		}
 		//Don't Destroy small enemies, just move them to the origin.
 		yield WaitForSeconds(2);//Wait to seconds before destroying the death particles
 		Destroy(spawned);//Destroy the enemy death particles

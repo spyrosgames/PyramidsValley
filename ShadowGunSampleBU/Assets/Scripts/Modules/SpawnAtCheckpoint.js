@@ -12,7 +12,6 @@ public var livesHeartsGameObject : GameObject;
 public var pyramidHealthGUIGameObject : GameObject;
 private var JoystickLeft : GameObject;
 private var JoystickRight : GameObject;
-public var PyramidUnderAttackGUIText : GUIText;
 public var FirstHealthHeart : GUITexture;
 public var SecondHealthHeart : GUITexture;
 public var ThirdHealthHeart : GUITexture;
@@ -106,7 +105,6 @@ public function DisplayDeathScreen()
 	livesHeartsGameObject.SetActiveRecursively(false);
 	pyramidHealthGUIGameObject.SetActiveRecursively(false);
 	enemiesKilledGUIText.enabled = false;
-	PyramidUnderAttackGUIText.enabled = false;
 	//this.gameObject.GetComponent.<PlayerMoveController>().active = false;
 	JoystickLeft = GameObject.Find("Joystick Left");
 	JoystickRight = GameObject.Find("Joystick Right");

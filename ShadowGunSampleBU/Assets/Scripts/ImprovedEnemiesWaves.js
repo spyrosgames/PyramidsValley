@@ -1,16 +1,17 @@
 #pragma strict
-public var enemies : GameObject[];
+
+private var wavesMonitor : WavesMonitor;
 
 function Awake()
 {
-	
+	wavesMonitor = GetComponent.<WavesMonitor>();
+	PlayerPrefs.DeleteAll();
 }
 
 function Start()
 {
-	for(var i : int = 0; i < enemies.length; i++)
-	{
-		enemies[i].SetActiveRecursively(true);
-		yield WaitForSeconds(8);
-	}
+	wavesMonitor.AnimateArmyTitle();
+	wavesMonitor.AnimateWaveTitle();
+
+	wavesMonitor.InstantiateEnemies();
 }

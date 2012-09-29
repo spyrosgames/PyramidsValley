@@ -67,7 +67,7 @@ public class iTween : MonoBehaviour{
  	private float runningTime, percentage;
 	private float delayStarted; //probably not neccesary that this be protected but it shuts Unity's compiler up about this being "never used"
 	private bool kinematic, isLocal, loop, reverse, wasPaused, physics;
-	private Hashtable tweenArguments;
+	private Hashtable tweenArguments = new Hashtable();
 	private Space space;
 	private delegate float EasingFunction(float start, float end, float value);
 	private delegate void ApplyTween();
@@ -4621,7 +4621,10 @@ public class iTween : MonoBehaviour{
 	}	
 	
 	void TweenUpdate(){
-		apply();
+		if(apply != null)
+		{
+			apply();
+		}
 		CallBack("onupdate");
 		UpdatePercentage();		
 	}
@@ -4637,7 +4640,11 @@ public class iTween : MonoBehaviour{
 		}
 		
 		//apply dial in and final run:
-		apply();
+		if(apply != null)
+		{
+			apply();
+		}
+
 		if(type == "value"){
 			CallBack("onupdate"); //CallBack run for ValueTo since it only calculates and applies in the update callback
 		}
@@ -4659,8 +4666,10 @@ public class iTween : MonoBehaviour{
 				//rewind:
 				percentage=0;
 				runningTime=0;
-				apply();
-				
+				if(apply != null)
+				{
+					apply();
+				}
 				//replay:
 				StartCoroutine("TweenRestart");
 				break;

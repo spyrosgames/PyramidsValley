@@ -41,8 +41,8 @@ function Start()
 }
 
 function OnSignal () {
-	if(this.gameObject.tag != "Pyramid")
-	{
+	//if(this.gameObject.tag != "Pyramid")
+	//{
 		globals.enemiesKilled++;
 		if(this.gameObject.name == "RangedEnemy" || this.gameObject.name == "MeleeEnemy")
 		{
@@ -56,7 +56,7 @@ function OnSignal () {
 		{
 			globals.score += 8;
 		}
-
+		/*
 		if(globals.enemiesKilled % 30 == 0)
 		{
 			var mediumEnemyType = Random.Range(0, 2);
@@ -81,10 +81,12 @@ function OnSignal () {
 				newMediumEnemy.name = bigEnemyTypeArray[bigEnemyType];
 			}
 		}
+		*/
 		//Reload health of enemies
 		enemyHealth.dead = false;
 		enemyHealth.health = enemyHealth.maxHealth;
-	}
+	//}
+	/*
 	else if(this.gameObject.tag == "Pyramid")
 	{
 		globals.lives = 1;
@@ -92,6 +94,7 @@ function OnSignal () {
 		var playerHealth = player.GetComponent.<Health>();
 		playerHealth.OnDamage(200, -player.transform.forward);
 	}
+	*/
 }
 
 /*

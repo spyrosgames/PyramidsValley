@@ -9,12 +9,14 @@ public var PyramidHealthGUIGameObject : GameObject;
 public var MenuSoundTrackAudioSource : GameObject;
 public var MainSoundTrackAudioSource : GameObject;
 public var scaredGround : GameObject;
+public var GesturesRecognizer : GameObject;
+public var GesturesCamera : GameObject;
 //public var tempEnemy : GameObject;
+//public var magicMeter : GameObject;
 
 function Awake()
 {
 	//guiTexture.pixelInset = Rect(Screen.width * 0.5 - 128, Screen.height * 0.5 - 64, 256, 128);
-
 }
 
 function Start () {
@@ -56,9 +58,12 @@ function Update () {
 				*/
 				enemiesKilledGUIGameObject.SetActiveRecursively(true);
 				LivesHearts.SetActiveRecursively(true);
-				//EnemiesWaves.active = true;
+				EnemiesWaves.active = true;
 				//tempEnemy.SetActiveRecursively(true);
 				PyramidHealthGUIGameObject.SetActiveRecursively(true);
+				GesturesRecognizer.active = true;
+				GesturesCamera.active = true; //A independent camera for rendering gestures
+				//magicMeter.SetActiveRecursively(true);
 				this.gameObject.active = false;
 			}			
 		}

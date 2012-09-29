@@ -39,6 +39,9 @@ private var screenMovementSpace : Quaternion;
 private var screenMovementForward : Vector3;
 private var screenMovementRight : Vector3;
 
+public var joystickRightTexture : Texture2D;
+public var joystickLeftTexture : Texture2D;
+
 function Awake () {		
 	motor.movementDirection = Vector2.zero;
 	motor.facingDirection = Vector2.zero;
@@ -59,11 +62,15 @@ function Awake () {
 			// Create left joystick
 			var joystickLeftGO : GameObject = Instantiate (joystickPrefab) as GameObject;
 			joystickLeftGO.name = "Joystick Left";
+			joystickLeftGO.GetComponent.<GUITexture>().texture = joystickLeftTexture;
+			joystickLeftGO.GetComponent.<GUITexture>().pixelInset.x = 28.15622;
 			joystickLeft = joystickLeftGO.GetComponent.<Joystick> ();
 			
 			// Create right joystick
 			joystickRightGO = Instantiate (joystickPrefab) as GameObject;
 			joystickRightGO.name = "Joystick Right";
+			joystickRightGO.GetComponent.<GUITexture>().pixelInset.x = 24.15622;
+			joystickRightGO.GetComponent.<GUITexture>().texture = joystickRightTexture;
 			joystickRight = joystickRightGO.GetComponent.<Joystick> ();			
 		}
 	#else
