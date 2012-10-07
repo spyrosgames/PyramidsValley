@@ -1,4 +1,4 @@
-class PlayerHealth extends Health
+class PlayerHitFlashing extends Health
 {
 	public var playerMesh : GameObject;
 	public var redPlayerMaterial : Material;
@@ -6,10 +6,10 @@ class PlayerHealth extends Health
 
 	function OnSignal()
 	{
-		
+		yield WaitForSeconds(0.4);
+		//iTween.ColorTo(playerMesh, {"r": 2, "time": 0.3});
 		playerMesh.transform.renderer.sharedMaterial = redPlayerMaterial;
 		yield WaitForSeconds(0.4);
 		playerMesh.transform.renderer.sharedMaterial = normalPlayerMaterial;
-		
 	}
 }

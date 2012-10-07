@@ -79,7 +79,10 @@ function OnSignal () {
 	}
 	if(this.transform.parent.gameObject.name == "RangedEnemy" || this.transform.parent.gameObject.name == "MeleeEnemy")
 	{
+		yield WaitForSeconds(0.9583335);
+
 		this.transform.parent.gameObject.transform.position = enemyCheckPointArray[Random.Range(0, 3)].position; //move the enemies back to one of the checkpoints
+		
 		wavesMonitor = GameObject.FindWithTag("WavesMonitor");
 		wavesMonitorObj = wavesMonitor.GetComponent.<WavesMonitor>();
 
@@ -123,13 +126,24 @@ function OnSignal () {
 
 		remainingEnemiesToKill = enemiesNumberToConsider - globals.enemiesKilled;
 
+		Destroy(spawned);
+
+
 		if(remainingEnemiesToKill < enemiesLimit)
 		{
+			this.transform.parent.gameObject.GetComponent.<NewAIFollowJavaScript>().isDead = false;
+			this.transform.parent.gameObject.GetComponent.<NavMeshAgent>().Resume();
 			this.transform.parent.gameObject.SetActiveRecursively(false);
 		}
+		else
+		{
+			yield WaitForSeconds(4);
+			this.transform.parent.gameObject.GetComponent.<NewAIFollowJavaScript>().isDead = false;
+			this.transform.parent.gameObject.GetComponent.<NavMeshAgent>().Resume();
+		}
 		//Don't Destroy small enemies, just move them to the origin.
-		yield WaitForSeconds(2);//Wait to seconds before destroying the death particles
-		Destroy(spawned);//Destroy the enemy death particles
+		//yield WaitForSeconds(2);//Wait to seconds before destroying the death particles
+		//Destroy(spawned);//Destroy the enemy death particles
 	}
 	else if(this.transform.parent.gameObject.name == "MediumRangedEnemy" || this.transform.parent.gameObject.name == "MediumMeleeEnemy" || this.transform.parent.gameObject.name == "BigRangedEnemy" || this.transform.parent.gameObject.name == "BigMeleeEnemy")
 	{

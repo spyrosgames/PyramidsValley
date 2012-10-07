@@ -139,10 +139,10 @@ class MagicsFactory : MonoBehaviour {
 				if(enemyPositionInsideScreen.x > 0 && enemyPositionInsideScreen.x < Screen.width && enemyPositionInsideScreen.y > 0 && enemyPositionInsideScreen.y < Screen.height)
 				{
 					Health enemyHealth = enemies[i].transform.GetComponent<Health>();
-					GameObject holyFireObj = Instantiate(HolyFireMagicVisualEffect, new Vector3(enemies[i].gameObject.transform.position.x, enemies[i].gameObject.transform.position.y + 3, enemies[i].gameObject.transform.position.z), Quaternion.identity) as GameObject;
+					GameObject holyFireObj = Instantiate(HolyFireMagicVisualEffect, new Vector3(enemies[i].gameObject.transform.position.x, enemies[i].gameObject.transform.position.y, enemies[i].gameObject.transform.position.z), Quaternion.identity) as GameObject;
 					holyFireObj.transform.parent = enemies[i].gameObject.transform;
-					//enemyHealth.OnDamage(100, -enemies[i].transform.forward);
-					enemyHealth.dieSignals.SendSignals(enemyHealth);
+					enemyHealth.OnDamage(100, -enemies[i].transform.forward);
+					//enemyHealth.dieSignals.SendSignals(enemyHealth);
 				}
 			}
 		}	

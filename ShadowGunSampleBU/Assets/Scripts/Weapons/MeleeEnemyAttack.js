@@ -1,79 +1,3 @@
-/*
-#pragma strict
-var firing : boolean = false;
-var damagePerSecond : float = 20.0;
-var forcePerSecond : float = 10.0;
-var hitSoundVolume : float = 0.5;
-
-var sound : AudioClip;
-var attackTimer : float;
-var coolDown : float = 2;
-public var Enemy : Transform;
-private var player : Transform;
-private var playerHealth : Health;
-private var raycast : PerFrameRaycast;
-
-function Awake () {	
-	player = GameObject.FindWithTag ("Player").transform;
-	playerHealth = player.GetComponent.<Health>();
-	raycast = GetComponent.<PerFrameRaycast> ();
-}
-
-function Start()
-{
-	attackTimer = 0;
-	coolDown = 2;
-}
-
-function Update()
-{
-	if(attackTimer > 0)
-	{
-		attackTimer -= Time.deltaTime;
-	}
-	if(attackTimer < 0)
-	{
-		attackTimer = 0;
-	}
-
-	if(attackTimer == 0)
-	{
-		Attack();
-		attackTimer = coolDown;
-	}
-}
-
-function Attack()
-{
-	var distance : float = Vector3.Distance(player.transform.position, Enemy.transform.position);
-	var dir : Vector3 = (player.transform.position - Enemy.transform.position).normalized;
-	var direction : float = Vector3.Dot(dir, Enemy.transform.forward);
-
-	if(distance < 3)
-	{
-		if(direction > 0)
-		{
-			if(playerHealth.health > 0)
-			{
-				var targetHealth : Health = player.transform.GetComponent.<Health> ();
-				if (targetHealth) {
-					// Apply damage
-					targetHealth.OnDamage (damagePerSecond, -player.transform.forward);
-				}
-
-				// Get the rigidbody if any
-				if (player.rigidbody) {
-					// Apply force to the target object at the position of the hit point
-					var force : Vector3 = player.transform.forward * (forcePerSecond);
-					player.rigidbody.AddForceAtPosition (force, player.transform.position, ForceMode.Impulse);
-				}
-			}
-			//var ph : PlayerHealth = hitInfo.collider.GetComponent("PlayerHealth");
-			//ph.adjustCurrentHealth(-damagePerSecond);
-		}
-	}
-}
-*/
 #pragma strict
 
 // Public member data
@@ -91,13 +15,10 @@ private var ai : AI;
 private var character : Transform;
 
 private var player : Transform;
-//private var raaFighter : Transform;
 private var playerHealth : Health;
-//private var pyramid : Transform;
 
 private var inRange : boolean = false;
-//private var pyramidInRange : boolean = false;
-//private var raaFighterInRange : boolean = false;
+
 
 private var nextRaycastTime : float = 0;
 private var lastRaycastSuccessfulTime : float = 0;
@@ -108,26 +29,28 @@ private var lastFireTime : float = -1;
 private var nextWeaponToFire : int = 0;
 
 private var playerDirection : Vector3;
-//private var pyramidDirection : Vector3;
-//private var raaFighterDirection : Vector3;
-//private var raaFighterDist : float;
 
 private var currentCharacterToAttack : Transform;
 
-public var damagePerSecond : float = 20.0;
-public var forcePerSecond : float = 10.0;
+public var damagePerSecond : float = 1.0;
+public var forcePerSecond : float = 5.0;
+
+public var strike1Animation : AnimationClip;
+public var strike2Animation : AnimationClip;
+public var hitAnimation : AnimationClip;
+public var idleAnimation : AnimationClip;
+
+public var enemyBody : GameObject;
 
 function Awake () {
 	character = motor.transform;
 	player = GameObject.FindWithTag ("Player").transform;
 	playerHealth = player.GetComponent.<Health>();
-	//pyramid = GameObject.FindWithTag("Pyramid").transform;
 	ai = transform.parent.GetComponentInChildren.<AI> ();
 }
 
 function OnEnable () {
 	inRange = false;
-	//pyramidInRange = false;
 	nextRaycastTime = Time.time + 1;
 	lastRaycastSuccessfulTime = Time.time;
 	noticeTime = Time.time;
@@ -142,11 +65,13 @@ function Shoot(state : boolean) {
 }
 
 function Fire () {
+	PlayAttackAnimation();
 	var targetHealth : Health = currentCharacterToAttack.transform.GetComponent.<Health> ();
 	if (targetHealth) {
 		// Apply damage
 		targetHealth.OnDamage (damagePerSecond, -currentCharacterToAttack.transform.forward);
 	}
+	
 	/*
 		// Get the rigidbody if any
 	if (currentCharacterToAttack.rigidbody) {
@@ -162,44 +87,10 @@ function Update () {
 	// Calculate the direction from the player to this character
 	playerDirection = (player.position - character.position);
 
-	/*
-	if(pyramid != null)
-	{
-		//Calculate the direction from pyramid to this character
-		pyramidDirection = (pyramid.position - character.position);
-		//var pyramidDirection : Vector3 = (pyramid.position - character.position);	
-	}
-	else
-	{
-		pyramidDirection = Vector3(playerDirection.x * 2, playerDirection.y * 2, playerDirection.z * 2);
-	}
-	
-
-	if(PlayerPrefs.GetString("RaaIsAlive") == "true")
-	{
-		raaFighter = GameObject.FindWithTag("RaaFighter").transform;
-		raaFighterDirection = (raaFighter.position - character.position);
-		raaFighterDirection.y = 0;
-		raaFighterDist = raaFighterDirection.magnitude;
-		raaFighterDirection /= raaFighterDist;
-	}
-	else
-	{
-		raaFighterDist = (playerDirection.magnitude + pyramidDirection.magnitude) * 2; //Just a big value when there's no raa fighter, so that
-																					//comparison will be between playerDist and pyramidDist
-	}
-	*/
-
 	playerDirection.y = 0;
-	//pyramidDirection.y = 0;
 
 	var playerDist : float = playerDirection.magnitude;
 	playerDirection /= playerDist;
-	
-	/*
-	var pyramidDist : float = pyramidDirection.magnitude;
-	pyramidDirection /= pyramidDist;
-	*/
 
 	// Set this character to face the player,
 	// that is, to face the direction from this character to the player
@@ -223,38 +114,7 @@ function Update () {
 			inRange = true;
 		}
 	//}
-	/*
-	else if(pyramidDist < playerDist && pyramidDist < raaFighterDist)
-	{
-		if (pyramidInRange && pyramidDist > targetDistanceMax)
-		{
-			pyramidInRange = false;
-		}
-		if (!pyramidInRange && pyramidDist < targetDistanceMin)
-		{
-			pyramidInRange = true;
-		}
-	}
-	else if(raaFighterDist < playerDist && raaFighterDist < pyramidDist)
-	{	
-		if (raaFighterInRange && raaFighterDist > targetDistanceMax)
-		{
-			raaFighterInRange = false;
-		}
-		if (!raaFighterInRange && raaFighterDist < targetDistanceMin)
-		{
-			raaFighterInRange = true;
-		}
-	}
-	*/
-
-	/*
-	if(inRange && pyramidDist > targetDistanceMax)
-		inRange = false;
-	if(!inRange && pyramidDist < targetDistanceMin)
-		inRange = true;
-	*/
-
+	
 	if (inRange)
 	{
 		motor.movementDirection = Vector3.zero;
@@ -263,41 +123,14 @@ function Update () {
 	{
 		motor.movementDirection = playerDirection;
 	}
-	/*
-	if(pyramidInRange)
-	{
-		motor.movementDirection = Vector3.zero;
-	}
-	else
-	{
-		motor.movementDirection = pyramidDirection;
-	}
-
-	if(raaFighterInRange)
-	{
-		motor.movementDirection = Vector3.zero;
-	}
-	else
-	{
-		motor.movementDirection = raaFighterDirection;
-	}
-	*/
-
-	/*
-	if(inRange)
-		motor.movementDirection = Vector3.zero;
-	else
-		motor.movementDirection = pyramidDirection;
-	*/
-
+	
 	if (Time.time > nextRaycastTime) {
 		nextRaycastTime = Time.time + 1;
-		//if(playerDist < pyramidDist && playerDist < raaFighterDist)
-		//{
 			if (ai.CanSeePlayer()) {
 				lastRaycastSuccessfulTime = Time.time;
 				if (IsAimingAtPlayer ())
 				{
+					//SmoothLookAt();
 					Shoot(true);
 					currentCharacterToAttack = player;
 				}
@@ -312,59 +145,6 @@ function Update () {
 					ai.OnLostTrack ();
 				}
 			}
-		//}
-		/*
-		else if(pyramidDist < playerDist && pyramidDist < raaFighterDist)
-		{
-			if(ai.CanSeePyramid())
-			{
-				Debug.Log("ai.CanSeePyramid");
-				lastRaycastSuccessfulTime = Time.time;
-				if(IsAimingAtPyramid())
-				{
-					Debug.Log("Shooting Pyramid");
-					Shoot(true);
-					currentCharacterToAttack = pyramid;
-				}
-				else
-				{
-					Shoot(false);
-				}
-			}
-			else
-			{
-				Shoot(false);
-				if(Time.time > lastRaycastSuccessfulTime + 5)
-				{
-					ai.OnLostTrack();
-				}
-			}
-		}
-		else if(raaFighterDist < playerDist && raaFighterDist < pyramidDist)
-		{
-			if(ai.CanSeeRaaFighter())
-			{
-				lastRaycastSuccessfulTime = Time.time;
-				if(IsAimingAtRaaFighter())
-				{
-					Shoot(true);
-					currentCharacterToAttack = raaFighter;
-				}
-				else
-				{
-					Shoot(false);
-				}
-			}
-			else
-			{
-				Shoot(false);
-				if(Time.time > lastRaycastSuccessfulTime + 5)
-				{
-					ai.OnLostTrack();
-				}
-			}
-		}
-		*/
 	}
 	
 	if (firing) {
@@ -373,47 +153,61 @@ function Update () {
 			if (Time.time > lastFireTime + 1 / fireFrequency) {
 				Fire ();
 			}
+			else
+			{
+				enemyBody.animation.CrossFadeQueued(idleAnimation.name, 0, QueueMode.CompleteOthers);
+			}
 		}
 	}
+}
+function SmoothLookAt()
+{
+	//var rotation = Quaternion.LookRotation(player.position - character.position);
+	//character.rotation = Quaternion.Slerp(character.rotation, rotation, Time.deltaTime * 6);
+
+	var lookAtPlayer = Quaternion.LookRotation(player.transform.position - motor.transform.position);
+    motor.transform.rotation = Quaternion.Slerp(motor.transform.rotation, lookAtPlayer , Time.deltaTime / 5);
 }
 
 function IsAimingAtPlayer () : boolean {
 	/*
 	var playerDirection : Vector3 = (player.position - character.transform.position);
 	playerDirection.y = 0;
-	return Vector3.Angle (transform.forward, playerDirection) < 30;
-	*/
-	var distance : float = Vector3.Distance(player.transform.position, character.transform.position);
-	if(distance < 3)
+	if(Vector3.Angle (character.transform.forward, playerDirection) < 1)
 	{
 		return true;
 	}
-	return false;
-}
-/*
-function IsAimingAtRaaFighter () : boolean {
-	if(PlayerPrefs.GetString("RaaIsAlive") == "true")
+	*/
+	
+	var distance : float = Vector3.Distance(player.transform.position, character.transform.position);
+	
+	if(distance < 5)
 	{
-		if(raaFighter != null)
-		{
-			var distance : float = Vector3.Distance(raaFighter.transform.position, character.transform.position);
-			if(distance < 3)
-			{
-				return true;
-			}
-		}
+		return true;
 	}
+	
 	return false;
 }
 
-function IsAimingAtPyramid() : boolean
+function PlayAttackAnimation()
 {
-	var distance : float = Vector3.Distance(pyramid.transform.position, character.transform.position);
-	Debug.Log("distance:"+distance);
-	if(distance > 0)
+	var randomAnimation : int = Random.Range(0, 2);
+	var currentAttackAnimation : AnimationClip = strike1Animation;
+	var animationSpeed : float;
+
+
+	if(randomAnimation == 0)
 	{
-		return true;
+		currentAttackAnimation = strike1Animation;
+		animationSpeed = 0.9;
 	}
-	return false;
+	else if(randomAnimation == 1)
+	{
+		currentAttackAnimation = strike2Animation;
+		animationSpeed = 0.95;
+	}
+
+	enemyBody.animation.CrossFade(currentAttackAnimation.name, 0);
+	enemyBody.animation[currentAttackAnimation.name].speed = animationSpeed;
 }
-*/
+

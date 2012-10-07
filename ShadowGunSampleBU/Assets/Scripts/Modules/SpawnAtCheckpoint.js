@@ -36,7 +36,11 @@ function OnSignal () {
 	//transform.rotation = checkpoint.rotation;
 	
 	//ResetHealthOnAll ();
-	globals.lives--;
+	if(playerHealth.health == 0)
+	{
+		globals.lives--;
+	}
+	
 	if(globals.lives == 2)
 	{
 		FirstHealthHeart.texture = HeartGrey;

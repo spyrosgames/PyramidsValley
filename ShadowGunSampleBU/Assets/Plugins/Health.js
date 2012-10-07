@@ -22,8 +22,10 @@ private var damageEffect : ParticleEmitter;
 private var damageEffectCenterYOffset : float;
 
 private var colliderRadiusHeuristic : float = 1.0;
+private var globals : Globals;
 
 function Awake () {
+	globals = Globals.GetInstance();
 	enabled = false;
 	if (damagePrefab) {
 		if (damageEffectTransform == null)
@@ -35,7 +37,6 @@ function Awake () {
 		var tempSize : Vector2 = Vector2(collider.bounds.extents.x,collider.bounds.extents.z);
 		colliderRadiusHeuristic = tempSize.magnitude * 0.5;
 		damageEffectCenterYOffset = collider.bounds.extents.y;
-		
 	}
 }
 
@@ -89,7 +90,6 @@ function OnDamage (amount : float, fromDirection : Vector3) {
 	if (health <= 0) {
 		health = 0;
 		dead = true;
-
 		dieSignals.SendSignals (this);
 		enabled = false;
 		

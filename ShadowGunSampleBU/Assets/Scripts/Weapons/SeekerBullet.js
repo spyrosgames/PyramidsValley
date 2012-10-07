@@ -61,6 +61,7 @@ function Update () {
 			// Apply damage
 			targetHealth.OnDamage (damageAmount, -tr.forward);
 		}
+		/*
 		// Get the rigidbody if any
 		if (c.rigidbody) {
 			// Apply force to the target object
@@ -68,6 +69,7 @@ function Update () {
 			force.y = 0;
 			c.rigidbody.AddForce (force, ForceMode.Impulse);
 		}
+		*/
 		collided = true;
 	}
 	if (collided) {

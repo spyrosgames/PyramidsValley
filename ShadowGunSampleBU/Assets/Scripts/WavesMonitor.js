@@ -145,11 +145,11 @@ function ZoomInCamera()
 {
 	//Zoom the field of view in:
 
-    iTween.ValueTo(gameObject,{"from":70,"to":40,"time":2.5,"onupdate":"animateFieldOfView","easetype":"easeinoutcubic"});
+    iTween.ValueTo(gameObject,{"from":78,"to":48,"time":2.5,"onupdate":"animateFieldOfView","easetype":"easeinoutcubic"});
 
     
     //Zoom the field of view out:
-    iTween.ValueTo(gameObject,{"from":40,"to":70,"time":2.5,"delay":2.4,"onupdate":"animateFieldOfView","easetype":"easeinoutcubic"});
+    iTween.ValueTo(gameObject,{"from":48,"to":78,"time":2.5,"delay":2.4,"onupdate":"animateFieldOfView","easetype":"easeinoutcubic"});
 }
 
 function InstantiateEnemies()
@@ -169,11 +169,12 @@ function InstantiateEnemies()
 		
 		for(var i : int = 0; i < meleeEnemiesNumber; i++)
 		{
+			yield WaitForSeconds(4);
 			MeleeEnemies[i].SetActiveRecursively(true);
 			yield WaitForSeconds(4);
 		}
 	}
-
+	
 	numberOfRangedEnemies = GetNumberOfWaveRangedEnemies(PlayerPrefs.GetInt("WaveNumber"));
 	if(numberOfRangedEnemies > 0)
 	{
@@ -188,10 +189,12 @@ function InstantiateEnemies()
 		}
 		for(var j : int = 0; j < rangedEnemiesNumber; j++)
 		{
+			yield WaitForSeconds(4);
 			RangedEnemies[j].SetActiveRecursively(true);
 			yield WaitForSeconds(4);
 		}
 	}
+	
 }
 
 function GetNumberOfWaveRangedEnemies(waveNumber : int) : int

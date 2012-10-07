@@ -32,6 +32,9 @@ private var lastFireTime : float = -1;
 private var nextWeaponToFire : int = 0;
 
 private var playerDirection : Vector3;
+public var enemyBody : GameObject;
+
+public var idleAnimation : AnimationClip;
 //private var pyramidDirection : Vector3;
 //private var raaFighterDirection : Vector3;
 //private var raaFighterDist : float;
@@ -61,6 +64,7 @@ function Shoot(state : boolean) {
 }
 
 function Fire () {
+	enemyBody.animation.CrossFade(idleAnimation.name, 0.1);
 	if (weaponBehaviours[nextWeaponToFire]) {
 		weaponBehaviours[nextWeaponToFire].SendMessage ("Fire");
 		nextWeaponToFire = (nextWeaponToFire + 1) % weaponBehaviours.Length;
@@ -277,9 +281,19 @@ function Update () {
 }
 
 function IsAimingAtPlayer () : boolean {
+	/*
 	var playerDirection : Vector3 = (player.position - transform.position);
 	playerDirection.y = 0;
 	return Vector3.Angle (transform.forward, playerDirection) < 30;
+	*/
+	var distance : float = Vector3.Distance(player.transform.position, character.transform.position);
+	
+	if(distance < 12)
+	{
+		return true;
+	}
+	
+	return false;
 }
 /*
 function IsAimingAtRaaFighter () : boolean {

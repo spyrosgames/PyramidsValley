@@ -44,8 +44,8 @@ public class GestureSet: ScriptableObject
 	If this value is set too low the recognizer may reject some good matches. \n
 	If it is set too high the recognizer may accept some false positives.\n
 	*/
-	//public  int RejectionWindow = 45;
-	public  int RejectionWindow = 15;
+	public  int RejectionWindow = 45;
+	//public  int RejectionWindow = 15;
 	/**
 	If set true the recognizer will preform an additional elastic matching based comparison.
 	This greatly increase the recognizer's accuracy but warps the input in the process.\n

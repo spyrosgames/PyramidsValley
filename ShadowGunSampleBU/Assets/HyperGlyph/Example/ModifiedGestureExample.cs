@@ -69,6 +69,53 @@ public class ModifiedGestureExample : MonoBehaviour
 			if(currentGestureTouch.phase == TouchPhase.Ended && touchStarted == true)
 			{
 				match = HyperGlyph.Recognize();
+				if(match.glyphname == "Line")
+				{
+					magicsFactory.getMagicEffect(PlayerPrefs.GetString("Magic0"));
+					if(PlayerPrefs.GetString("Magic0") == "Stun")
+					{
+						magicsFactory.disableMagicEffect("Stun", 3.0f);
+					}
+				}
+
+
+				if(match.glyphname == "A")
+				{
+					magicsFactory.getMagicEffect(PlayerPrefs.GetString("Magic1"));
+					if(PlayerPrefs.GetString("Magic1") == "Stun")
+					{
+						magicsFactory.disableMagicEffect("Stun", 3.0f);
+					}
+				}
+
+				if(match.glyphname == "Z")
+				{
+					magicsFactory.getMagicEffect(PlayerPrefs.GetString("Magic2"));
+					if(PlayerPrefs.GetString("Magic2") == "Stun")
+					{
+						magicsFactory.disableMagicEffect("Stun", 3.0f);
+					}
+				}
+
+				if(match.glyphname == "Square")
+				{
+					magicsFactory.getMagicEffect(PlayerPrefs.GetString("Magic3"));
+					if(PlayerPrefs.GetString("Magic3") == "Stun")
+					{
+						magicsFactory.disableMagicEffect("Stun", 3.0f);
+					}
+
+				}
+
+				if(match.glyphname == "U")
+				{
+					magicsFactory.getMagicEffect(PlayerPrefs.GetString("Magic4"));
+					if(PlayerPrefs.GetString("Magic4") == "Stun")
+					{
+						magicsFactory.disableMagicEffect("Stun", 3.0f);
+					}
+				}
+				/*
 				if(match.glyphname == "Stun")
 				{
 					magicsFactory.getMagicEffect("Stun");
@@ -106,6 +153,7 @@ public class ModifiedGestureExample : MonoBehaviour
 				{
 					magicsFactory.getMagicEffect("Electricity");
 				}
+				*/
 				touchStarted = false;
 			}
 		}

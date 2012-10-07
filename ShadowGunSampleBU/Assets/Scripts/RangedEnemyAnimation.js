@@ -38,6 +38,7 @@ function Update () {
 	//var pyramidDist : float = pyramidDirection.magnitude;
 	//if(playerDist < pyramidDist)
 	//{
+		/*
 		if(Vector3.Distance(player.transform.position, transform.position) > maxDistance)
 		{
 			animation.CrossFade(walkingAnimation.name, 0.2);
@@ -46,6 +47,7 @@ function Update () {
 		{
 			animation.CrossFade(idleAnimation.name, 0.2);
 		}
+		*/
 	//}
 	/*
 	if(pyramidDist > playerDist)
