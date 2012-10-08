@@ -5,7 +5,6 @@ public var Player : GameObject;
 public var EnemiesWaves : GameObject;
 public var enemiesKilledGUIGameObject : GameObject;
 public var LivesHearts : GameObject;
-public var PyramidHealthGUIGameObject : GameObject;
 public var MenuSoundTrackAudioSource : GameObject;
 public var MainSoundTrackAudioSource : GameObject;
 public var scaredGround : GameObject;
@@ -60,7 +59,6 @@ function Update () {
 				LivesHearts.SetActiveRecursively(true);
 				EnemiesWaves.active = true;
 				//tempEnemy.SetActiveRecursively(true);
-				PyramidHealthGUIGameObject.SetActiveRecursively(true);
 				GesturesRecognizer.active = true;
 				GesturesCamera.active = true; //A independent camera for rendering gestures
 				//magicMeter.SetActiveRecursively(true);

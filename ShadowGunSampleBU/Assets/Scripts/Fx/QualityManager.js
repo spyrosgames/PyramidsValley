@@ -73,15 +73,15 @@ private function AutoDetectQuality () {
 
 	// some special quality settings cases for various platforms
 
-	if (iPhoneSettings.generation == iPhoneGeneration.iPad1Gen) {
+	if (iPhone.generation == iPhoneGeneration.iPad1Gen) {
 		currentQuality = Quality.Low;
 		Debug.Log("AngryBots: quality set to 'Low' (iPad1 class iOS)");		
 	}
-	else if (iPhoneSettings.generation == iPhoneGeneration.iPad2Gen) {
+	else if (iPhone.generation == iPhoneGeneration.iPad2Gen) {
 		currentQuality = Quality.High;
 		Debug.Log("AngryBots: quality set to 'High' (iPad2 class iOS)");		
 	}
-	else if (iPhoneSettings.generation == iPhoneGeneration.iPhone3GS || iPhoneSettings.generation == iPhoneGeneration.iPodTouch3Gen) {
+	else if (iPhone.generation == iPhoneGeneration.iPhone3GS || iPhone.generation == iPhoneGeneration.iPodTouch3Gen) {
 		currentQuality = Quality.Low;
 		Debug.Log("AngryBots: quality set to 'Low' (iPhone 3GS class iOS)");					
 	}

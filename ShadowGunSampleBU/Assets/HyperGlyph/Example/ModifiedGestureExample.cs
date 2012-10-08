@@ -12,12 +12,16 @@ public class ModifiedGestureExample : MonoBehaviour
 	private MagicsFactory magicsFactory;
 	private float swipeSpeed = 0.1f;
 	private int count;
-	private bool touchStarted = false;
+	public bool touchStarted = false;
 	private Touch currentGestureTouch;
 	private int numberOfGestureTouch = 0;
 
 	public GUITexture gesturesLockTextureRight;
 	public GUITexture gesturesLockTextureLeft;
+
+	public GameObject player;
+	public AnimationClip magicAnimation;
+	public GameObject doingMagicParticlesEffect;
 
 	void Awake()
 	{
@@ -68,13 +72,18 @@ public class ModifiedGestureExample : MonoBehaviour
 			}
 			if(currentGestureTouch.phase == TouchPhase.Ended && touchStarted == true)
 			{
+				//player.animation.CrossFade(magicAnimation.name, 0.3f, PlayMode.StopAll);
+				GameObject magicParticlesEffect = Instantiate(doingMagicParticlesEffect, new Vector3(player.transform.position.x, player.transform.position.y + 2, player.transform.position.z), Quaternion.identity) as GameObject;
+				magicParticlesEffect.transform.parent = player.transform;
+				
 				match = HyperGlyph.Recognize();
+
 				if(match.glyphname == "Line")
 				{
 					magicsFactory.getMagicEffect(PlayerPrefs.GetString("Magic0"));
 					if(PlayerPrefs.GetString("Magic0") == "Stun")
 					{
-						magicsFactory.disableMagicEffect("Stun", 3.0f);
+						magicsFactory.disableMagicEffect("Stun", 6.0f);
 					}
 				}
 
@@ -84,7 +93,7 @@ public class ModifiedGestureExample : MonoBehaviour
 					magicsFactory.getMagicEffect(PlayerPrefs.GetString("Magic1"));
 					if(PlayerPrefs.GetString("Magic1") == "Stun")
 					{
-						magicsFactory.disableMagicEffect("Stun", 3.0f);
+						magicsFactory.disableMagicEffect("Stun", 6.0f);
 					}
 				}
 
@@ -93,7 +102,7 @@ public class ModifiedGestureExample : MonoBehaviour
 					magicsFactory.getMagicEffect(PlayerPrefs.GetString("Magic2"));
 					if(PlayerPrefs.GetString("Magic2") == "Stun")
 					{
-						magicsFactory.disableMagicEffect("Stun", 3.0f);
+						magicsFactory.disableMagicEffect("Stun", 6.0f);
 					}
 				}
 
@@ -102,7 +111,7 @@ public class ModifiedGestureExample : MonoBehaviour
 					magicsFactory.getMagicEffect(PlayerPrefs.GetString("Magic3"));
 					if(PlayerPrefs.GetString("Magic3") == "Stun")
 					{
-						magicsFactory.disableMagicEffect("Stun", 3.0f);
+						magicsFactory.disableMagicEffect("Stun", 6.0f);
 					}
 
 				}
@@ -112,7 +121,7 @@ public class ModifiedGestureExample : MonoBehaviour
 					magicsFactory.getMagicEffect(PlayerPrefs.GetString("Magic4"));
 					if(PlayerPrefs.GetString("Magic4") == "Stun")
 					{
-						magicsFactory.disableMagicEffect("Stun", 3.0f);
+						magicsFactory.disableMagicEffect("Stun", 6.0f);
 					}
 				}
 				/*

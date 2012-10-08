@@ -16,6 +16,9 @@ var sound : AudioClip;
 private var lastFireTime : float = -1;
 private var raycast : PerFrameRaycast;
 
+public var player : GameObject;
+public var shootingAnimation : AnimationClip;
+
 function Awake () {
 	muzzleFlashFront.active = false;
 	
@@ -81,4 +84,9 @@ function OnStopFire () {
 	
 	if (audio)
 		audio.Stop ();
+}
+
+function PlayShootingAnimation()
+{
+	player.animation.CrossFade(shootingAnimation.name, 0.1);
 }

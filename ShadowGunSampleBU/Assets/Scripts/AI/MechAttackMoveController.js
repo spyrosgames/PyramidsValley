@@ -58,13 +58,18 @@ function OnEnable () {
 function OnDisable () {
 	Shoot(false);
 }
-
+/*
+function OnSignal()
+{
+	Shoot(false);
+}
+*/
 function Shoot(state : boolean) {
 	firing = state;
 }
 
 function Fire () {
-	enemyBody.animation.CrossFade(idleAnimation.name, 0.1);
+	//enemyBody.animation.CrossFade(idleAnimation.name, 0.1);
 	if (weaponBehaviours[nextWeaponToFire]) {
 		weaponBehaviours[nextWeaponToFire].SendMessage ("Fire");
 		nextWeaponToFire = (nextWeaponToFire + 1) % weaponBehaviours.Length;
@@ -271,7 +276,7 @@ function Update () {
 	}
 	
 	if (firing) {
-		if(playerHealth.health > 0)
+		if(playerHealth.health > 0 && transform.parent.GetComponent.<Health>().health > 0)
 		{
 			if (Time.time > lastFireTime + 1 / fireFrequency) {
 				Fire ();

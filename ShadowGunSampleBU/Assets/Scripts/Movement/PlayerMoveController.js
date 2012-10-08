@@ -63,13 +63,13 @@ function Awake () {
 			var joystickLeftGO : GameObject = Instantiate (joystickPrefab) as GameObject;
 			joystickLeftGO.name = "Joystick Left";
 			joystickLeftGO.GetComponent.<GUITexture>().texture = joystickLeftTexture;
-			joystickLeftGO.GetComponent.<GUITexture>().pixelInset.x = 28.15622;
+			joystickLeftGO.GetComponent.<GUITexture>().pixelInset.x = 24.15622;
 			joystickLeft = joystickLeftGO.GetComponent.<Joystick> ();
 			
 			// Create right joystick
 			joystickRightGO = Instantiate (joystickPrefab) as GameObject;
 			joystickRightGO.name = "Joystick Right";
-			joystickRightGO.GetComponent.<GUITexture>().pixelInset.x = 24.15622;
+			joystickRightGO.GetComponent.<GUITexture>().pixelInset.x = 22.15622;
 			joystickRightGO.GetComponent.<GUITexture>().texture = joystickRightTexture;
 			joystickRight = joystickRightGO.GetComponent.<Joystick> ();			
 		}

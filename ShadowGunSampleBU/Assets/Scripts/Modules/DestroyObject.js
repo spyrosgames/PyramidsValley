@@ -83,8 +83,8 @@ function OnSignal () {
 		}
 		*/
 		//Reload health of enemies
-		enemyHealth.dead = false;
-		enemyHealth.health = enemyHealth.maxHealth;
+		//enemyHealth.dead = false;
+		//enemyHealth.health = enemyHealth.maxHealth;
 	//}
 	/*
 	else if(this.gameObject.tag == "Pyramid")

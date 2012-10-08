@@ -128,19 +128,19 @@ function OnSignal () {
 
 		Destroy(spawned);
 
+		this.transform.parent.gameObject.GetComponent.<NewAIFollowJavaScript>().isDead = false;
+		this.transform.parent.gameObject.GetComponent.<NavMeshAgent>().Resume();
+		this.transform.parent.gameObject.GetComponent.<Health>().dead = false;
+		var enemyMaxHealth = this.transform.parent.gameObject.GetComponent.<Health>().maxHealth;
+		this.transform.parent.gameObject.GetComponent.<Health>().health = enemyMaxHealth;
+		this.transform.parent.gameObject.SetActiveRecursively(false);
 
-		if(remainingEnemiesToKill < enemiesLimit)
-		{
-			this.transform.parent.gameObject.GetComponent.<NewAIFollowJavaScript>().isDead = false;
-			this.transform.parent.gameObject.GetComponent.<NavMeshAgent>().Resume();
-			this.transform.parent.gameObject.SetActiveRecursively(false);
-		}
-		else
+		if(remainingEnemiesToKill > enemiesLimit)
 		{
 			yield WaitForSeconds(4);
-			this.transform.parent.gameObject.GetComponent.<NewAIFollowJavaScript>().isDead = false;
-			this.transform.parent.gameObject.GetComponent.<NavMeshAgent>().Resume();
+			this.transform.parent.gameObject.SetActiveRecursively(true);
 		}
+
 		//Don't Destroy small enemies, just move them to the origin.
 		//yield WaitForSeconds(2);//Wait to seconds before destroying the death particles
 		//Destroy(spawned);//Destroy the enemy death particles

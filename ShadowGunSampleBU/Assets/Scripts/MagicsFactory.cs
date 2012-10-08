@@ -111,18 +111,21 @@ class MagicsFactory : MonoBehaviour {
 		//for(int i = 0; i < (int)Random.Range(enemies.Length * 0.5f, enemies.Length); i++)
 		for(int i = 0; i < enemies.Length; i++)
 		{
-			if(MainCamera != null)
-			{
-				Vector3 enemyPositionInsideScreen = MainCamera.camera.WorldToScreenPoint(enemies[i].transform.position);
-				if(enemyPositionInsideScreen.x > 0 && enemyPositionInsideScreen.x < Screen.width && enemyPositionInsideScreen.y > 0 && enemyPositionInsideScreen.y < Screen.height)
-				{
-					Health enemyHealth = enemies[i].transform.GetComponent<Health>();
-					GameObject destructionEffect = Instantiate(LightningStrikeMagicVisualEffect, new Vector3(enemies[i].gameObject.transform.position.x, enemies[i].gameObject.transform.position.y + 3, enemies[i].gameObject.transform.position.z), Quaternion.identity) as GameObject;
-					destructionEffect.transform.parent = enemies[i].gameObject.transform;
-					//enemyHealth.OnDamage(100, -enemies[i].transform.forward);
-					enemyHealth.dieSignals.SendSignals(enemyHealth);
-				}
-			}
+			//if(MainCamera != null)
+			//{
+				//Vector3 enemyPositionInsideScreen = MainCamera.camera.WorldToScreenPoint(enemies[i].transform.position);
+				//if(enemyPositionInsideScreen.x > 0 && enemyPositionInsideScreen.x < Screen.width && enemyPositionInsideScreen.y > 0 && enemyPositionInsideScreen.y < Screen.height)
+				//{
+						Health enemyHealth = enemies[i].transform.GetComponent<Health>();
+						GameObject destructionEffect = Instantiate(LightningStrikeMagicVisualEffect, new Vector3(enemies[i].gameObject.transform.position.x, enemies[i].gameObject.transform.position.y + 3, enemies[i].gameObject.transform.position.z), Quaternion.identity) as GameObject;
+						destructionEffect.transform.parent = enemies[i].gameObject.transform;
+						if(enemies[i].GetComponent<NewAIFollowJavaScript>().isDead == false && enemyHealth.dead == false)
+						{
+							enemyHealth.OnDamage(100, -enemies[i].transform.forward);	
+						}
+					//enemyHealth.dieSignals.SendSignals(enemyHealth);
+				//}
+			//}
 		}
 
 	}
@@ -133,18 +136,22 @@ class MagicsFactory : MonoBehaviour {
 		//for(int i = 0; i < (int)Random.Range(enemies.Length * 0.5f, enemies.Length); i++)
 		for(int i = 0; i < enemies.Length; i++)
 		{
-			if(MainCamera != null)
-			{
-				Vector3 enemyPositionInsideScreen = MainCamera.camera.WorldToScreenPoint(enemies[i].transform.position);
-				if(enemyPositionInsideScreen.x > 0 && enemyPositionInsideScreen.x < Screen.width && enemyPositionInsideScreen.y > 0 && enemyPositionInsideScreen.y < Screen.height)
-				{
+			//f(MainCamera != null)
+			//{
+				//Vector3 enemyPositionInsideScreen = MainCamera.camera.WorldToScreenPoint(enemies[i].transform.position);
+				//if(enemyPositionInsideScreen.x > 0 && enemyPositionInsideScreen.x < Screen.width && enemyPositionInsideScreen.y > 0 && enemyPositionInsideScreen.y < Screen.height)
+				//{
 					Health enemyHealth = enemies[i].transform.GetComponent<Health>();
 					GameObject holyFireObj = Instantiate(HolyFireMagicVisualEffect, new Vector3(enemies[i].gameObject.transform.position.x, enemies[i].gameObject.transform.position.y, enemies[i].gameObject.transform.position.z), Quaternion.identity) as GameObject;
 					holyFireObj.transform.parent = enemies[i].gameObject.transform;
-					enemyHealth.OnDamage(100, -enemies[i].transform.forward);
+					if(enemyHealth.health > 0)
+					{
+						enemyHealth.OnDamage(100, -enemies[i].transform.forward);
+					}
+					
 					//enemyHealth.dieSignals.SendSignals(enemyHealth);
-				}
-			}
+				//}
+			//}
 		}	
 	}
 
@@ -154,21 +161,9 @@ class MagicsFactory : MonoBehaviour {
 		enemies = GameObject.FindGameObjectsWithTag("Enemy");
 		for(int i = 0; i < enemies.Length; i++)
 		{
-			enemies[i].GetComponent<NavMeshAgent>().speed = 0;
+			enemies[i].GetComponent<NavMeshAgent>().Stop(true);
 
-			if(enemies[i].gameObject.name == "MeleeEnemy")
-			{
-				//enemies[i].transform.Find("demon").animation.CrossFade(meleeIdleAnimation.name, 0.2f);
-				enemies[i].transform.Find("demon").animation.enabled = false;
-
-				//enemies[i].transform.Find("demon").GetComponent<DaemonAnimation>().enabled = false;
-			}
-			else if(enemies[i].gameObject.name == "RangedEnemy")
-			{
-				enemies[i].transform.Find("mech_bot").animation.CrossFade(rangedIdleAnimation.name, 0.2f);
-			}
-
-			GameObject stuffEffect = Instantiate(StunMagicVisualEffect, new Vector3(enemies[i].gameObject.transform.position.x, enemies[i].gameObject.transform.position.y + 1, enemies[i].gameObject.transform.position.z), Quaternion.identity) as GameObject;
+			GameObject stuffEffect = Instantiate(StunMagicVisualEffect, new Vector3(enemies[i].gameObject.transform.position.x, enemies[i].gameObject.transform.position.y + 2, enemies[i].gameObject.transform.position.z), Quaternion.identity) as GameObject;
 			stuffEffect.transform.parent = enemies[i].gameObject.transform;
 		}
 		//Invoke("DisableStunMagicEffect", 2);
@@ -179,20 +174,7 @@ class MagicsFactory : MonoBehaviour {
 	{
 		for(int i = 0; i < enemies.Length; i++)
 		{
-			if(enemies[i].gameObject.name == "MeleeEnemy")
-			{
-				enemies[i].GetComponent<NavMeshAgent>().speed = 7;
-
-				//enemies[i].transform.Find("demon").animation.CrossFade(meleeMoveForwardAnimation.name, 0.2f);
-				enemies[i].transform.Find("demon").animation.enabled = true;
-				//enemies[i].transform.Find("demon").GetComponent<DaemonAnimation>().enabled = true;
-			}
-			else if(enemies[i].gameObject.name == "RangedEnemy")
-			{
-				enemies[i].GetComponent<NavMeshAgent>().speed = 9;
-				enemies[i].GetComponent<NavMeshAgent>().acceleration = 12;
-				enemies[i].transform.Find("mech_bot").animation.CrossFade(rangedMoveForwardAnimation.name, 0.2f);
-			}
+			enemies[i].GetComponent<NavMeshAgent>().Resume();
 		}
 	}
 	private void FrenzyMagicEffect()
@@ -297,18 +279,21 @@ class MagicsFactory : MonoBehaviour {
 		//for(int i = 0; i < (int)Random.Range(enemies.Length * 0.5f, enemies.Length); i++)
 		for(int i = 0; i < enemies.Length; i++)
 		{
-			if(MainCamera != null)
-			{
-				Vector3 enemyPositionInsideScreen = MainCamera.camera.WorldToScreenPoint(enemies[i].transform.position);
-				if(enemyPositionInsideScreen.x > 0 && enemyPositionInsideScreen.x < Screen.width && enemyPositionInsideScreen.y > 0 && enemyPositionInsideScreen.y < Screen.height)
-				{
+			//if(MainCamera != null)
+			//{
+				//Vector3 enemyPositionInsideScreen = MainCamera.camera.WorldToScreenPoint(enemies[i].transform.position);
+				//if(enemyPositionInsideScreen.x > 0 && enemyPositionInsideScreen.x < Screen.width && enemyPositionInsideScreen.y > 0 && enemyPositionInsideScreen.y < Screen.height)
+				//{
 					Health enemyHealth = enemies[i].transform.GetComponent<Health>();
 					GameObject dustStormObj = Instantiate(DustStormMagicVisualEffect, new Vector3(enemies[i].gameObject.transform.position.x, enemies[i].gameObject.transform.position.y + 3, enemies[i].gameObject.transform.position.z), Quaternion.identity) as GameObject;
 					dustStormObj.transform.parent = enemies[i].gameObject.transform;
-					//enemyHealth.OnDamage(100, -enemies[i].transform.forward);
-					enemyHealth.dieSignals.SendSignals(enemyHealth);
-				}
-			}
+					if(enemyHealth.health > 0)
+					{
+						enemyHealth.OnDamage(100, -enemies[i].transform.forward);	
+					}
+					//enemyHealth.dieSignals.SendSignals(enemyHealth);
+				//}
+			//}
 		}
 	}
 
@@ -373,18 +358,21 @@ class MagicsFactory : MonoBehaviour {
 		//for(int i = 0; i < (int)Random.Range(enemies.Length * 0.5f, enemies.Length); i++)
 		for(int i = 0; i < enemies.Length; i++)
 		{
-			if(MainCamera != null)
-			{
-				Vector3 enemyPositionInsideScreen = MainCamera.camera.WorldToScreenPoint(enemies[i].transform.position);
-				if(enemyPositionInsideScreen.x > 0 && enemyPositionInsideScreen.x < Screen.width && enemyPositionInsideScreen.y > 0 && enemyPositionInsideScreen.y < Screen.height)
-				{
+			//if(MainCamera != null)
+			//{
+				//Vector3 enemyPositionInsideScreen = MainCamera.camera.WorldToScreenPoint(enemies[i].transform.position);
+				//if(enemyPositionInsideScreen.x > 0 && enemyPositionInsideScreen.x < Screen.width && enemyPositionInsideScreen.y > 0 && enemyPositionInsideScreen.y < Screen.height)
+				//{
 					Health enemyHealth = enemies[i].transform.GetComponent<Health>();
 					GameObject starfallObj = Instantiate(StarfallMagicVisualEffect, new Vector3(enemies[i].gameObject.transform.position.x, enemies[i].gameObject.transform.position.y + 3, enemies[i].gameObject.transform.position.z), Quaternion.identity) as GameObject;
 					starfallObj.transform.parent = enemies[i].gameObject.transform;
-					//enemyHealth.OnDamage(100, -enemies[i].transform.forward);
-					enemyHealth.dieSignals.SendSignals(enemyHealth);
-				}
-			}
+					if(enemyHealth.health > 0)
+					{
+						enemyHealth.OnDamage(100, -enemies[i].transform.forward);	
+					}
+					//enemyHealth.dieSignals.SendSignals(enemyHealth);
+				//}
+			//}
 			yield return new WaitForSeconds(0.4f);
 		}
 
